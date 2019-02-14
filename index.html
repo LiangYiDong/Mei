@@ -142,3 +142,44 @@
  	</span>
 </body>
 </html>
+<script type="text/javascript">
+function autoPlayMusic() {
+    // 自动播放音乐效果，解决浏览器或者APP自动播放问题
+    function musicInBrowserHandler() {
+        musicPlay(true);
+        document.body.removeEventListener('touchstart', musicInBrowserHandler);
+    }
+    document.body.addEventListener('touchstart', musicInBrowserHandler);
+
+    // 自动播放音乐效果，解决微信自动播放问题
+    function musicInWeixinHandler() {
+        musicPlay(true);
+        document.addEventListener("WeixinJSBridgeReady", function () {
+            musicPlay(true);
+        }, false);
+        document.removeEventListener('DOMContentLoaded', musicInWeixinHandler);
+    }
+    document.addEventListener('DOMContentLoaded', musicInWeixinHandler);
+}
+function musicPlay(isPlay) {
+    var audio = document.getElementById('musicfx');
+    if (isPlay && audio.paused) {
+        audio.play();
+    }
+    if (!isPlay && !audio.paused) {
+        audio.pause();
+    }
+};
+autoPlayMusic();
+
+function play_music(){
+    if ($('#mc_play').hasClass('on')){
+        $('#mc_play audio').get(0).pause();
+        $('#mc_play').attr('class','stop');
+    }else{
+        $('#mc_play audio').get(0).play();
+        $('#mc_play').attr('class','on');
+    }
+    event.stopPropagation(); //阻止冒泡
+}
+</script>
